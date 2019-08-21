@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "630974383765",
+    "firebase_url": "https://sibelijje.firebaseio.com",
+    "project_id": "sibelijje",
+    "storage_bucket": "sibelijje.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:630974383765:android:222bfaf44288e53e",
+        "android_client_info": {
+          "package_name": "com.sibelijje"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "630974383765-7lqvqg21h01vn49ldg8tgbodkiipob0d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUCXFerAp-ZKFMBS7bfSOrc-cyl_wXLyM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "630974383765-7lqvqg21h01vn49ldg8tgbodkiipob0d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
