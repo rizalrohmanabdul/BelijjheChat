@@ -28,6 +28,7 @@ class Dashboard extends Component {
     super(props);
     this.state = {
       email: '',
+      uidnow: '',
       avatar: '',
       fullname: '',
       isModalVisible: false,
@@ -43,6 +44,7 @@ class Dashboard extends Component {
   componentWillMount = async () => {
     await this.user();
     await this.getCurrentPosition();
+    // await this.currentlocationupdate()
   };
 
   getCurrentPosition() {
@@ -64,6 +66,12 @@ class Dashboard extends Component {
           mapRegion: region,
           latitude: location.latitude,
           longitude: location.longitude,
+        });
+        Database.ref('/user/' + this.state.uidnow).update({
+          longitude: location.longitude,
+        });
+        Database.ref('/user/' + this.state.uidnow).update({
+          latitude: location.latitude,
         });
       })
       .catch(error => {
@@ -121,6 +129,12 @@ class Dashboard extends Component {
       }
     });
 
+    AsyncStorage.getItem('userid', (err, result) => {
+      if (result) {
+        this.setState({uidnow: result});
+      }
+    });
+
     AsyncStorage.getItem('fullname', (err, result) => {
       if (result) {
         this.setState({fullname: result});
@@ -133,6 +147,12 @@ class Dashboard extends Component {
       }
     });
   }
+
+  // currentlocationupdate = async () => {
+  //   const userToken = await AsyncStorage.getItem('userid');
+  //   console.log(userToken);
+  //   Database.ref('/user/' + userToken).update({latitude: this.state.latitude, longitude: this.state.longitude});
+  // };
 
   _Logout = async () => {
     const userToken = await AsyncStorage.getItem('userid');
@@ -174,7 +194,7 @@ class Dashboard extends Component {
                     latitude: item.latitude,
                     longitude: item.longitude,
                   }}
-                  title={item.fullname}
+                  title={`${item.fullname} - ${item.status}`}
                   description={`${item.latitude} / ${item.longitude}`}>
                   {/* <TouchableOpacity > */}
                   <Image
@@ -312,6 +332,9 @@ class Dashboard extends Component {
               </Text>
               <Text style={{fontSize: 12, fontWeight: 'bold'}}>
                 {this.state.usersdetail.email}
+              </Text>
+              <Text style={{fontSize: 12, fontWeight: 'bold'}}>
+                {this.state.usersdetail.status}
               </Text>
             </View>
             <View style={{position: 'absolute', alignItems: 'flex-end'}}>
