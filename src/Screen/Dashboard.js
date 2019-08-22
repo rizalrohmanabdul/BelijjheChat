@@ -22,6 +22,7 @@ import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 import {Database, Auth} from '../../src/Public/Config/configDB';
 import GetLocation from 'react-native-get-location';
 import Modal from 'react-native-modal';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 class Dashboard extends Component {
   constructor(props) {
@@ -38,6 +39,7 @@ class Dashboard extends Component {
       longitude: 0,
       users: [],
       usersdetail: [],
+      spinner: true
     };
   }
 
@@ -67,12 +69,12 @@ class Dashboard extends Component {
           latitude: location.latitude,
           longitude: location.longitude,
         });
-        Database.ref('/user/' + this.state.uidnow).update({
-          longitude: location.longitude,
-        });
-        Database.ref('/user/' + this.state.uidnow).update({
-          latitude: location.latitude,
-        });
+        // Database.ref('/user/' + this.state.uidnow).update({
+        //   longitude: location.longitude,
+        // });
+        // Database.ref('/user/' + this.state.uidnow).update({
+        //   latitude: location.latitude,
+        // });
       })
       .catch(error => {
         const {code, message} = error;
@@ -87,6 +89,7 @@ class Dashboard extends Component {
         let users = Object.values(data);
         this.setState({
           users: users,
+          spinner: false
         });
       }
     });
@@ -102,24 +105,17 @@ class Dashboard extends Component {
     this.setState({
       isModalVisibleusers: !this.state.isModalVisibleusers,
     });
-    // await Database.ref('/user').child('user').child(email).on('value', data =>{
-    //   let value = data.val()
-    //   console.log('datanya: ', value);
-    //   // this.setState({
-    //   //     datas:value,
-    //   //     btnmasuk:false,
-    //   //     btndelete:false,
-    //   // })
-    // })
     Database.ref('/user')
       .orderByChild('email')
       .equalTo(email)
       .once('value', result => {
         let data = Object.values(result.val());
+        console.log('cek data', data)
         this.setState({
           usersdetail: data[0],
         });
       });
+
   };
 
   componentDidMount() {
@@ -148,12 +144,6 @@ class Dashboard extends Component {
     });
   }
 
-  // currentlocationupdate = async () => {
-  //   const userToken = await AsyncStorage.getItem('userid');
-  //   console.log(userToken);
-  //   Database.ref('/user/' + userToken).update({latitude: this.state.latitude, longitude: this.state.longitude});
-  // };
-
   _Logout = async () => {
     const userToken = await AsyncStorage.getItem('userid');
     console.log(userToken);
@@ -172,6 +162,12 @@ class Dashboard extends Component {
     console.log('ini xxx', this.state.usersdetail);
     return (
       <Fragment>
+        {/* <Spinner
+          // visible={true}
+          visible={this.state.spinner}
+          textContent={'Loading...'}
+          textStyle={{color: '#fff'}}
+        /> */}
         <View style={styles.container}>
           <MapView
             provider={PROVIDER_GOOGLE} // remove if not using Google Maps
@@ -348,7 +344,12 @@ class Dashboard extends Component {
             <View
               style={{position: 'absolute', marginLeft: 250, marginTop: 40}}>
               <TouchableOpacity
-                onPress={() => this.props.navigation.navigate('Listchat')}>
+                onPress={() => this.props.navigation.navigate('PersonChat', {
+                  id: this.state.usersdetail.uid,
+                  img: this.state.usersdetail.img,
+                  fullname: this.state.usersdetail.fullname,
+                  status: this.state.usersdetail.status
+              })}>
                 <IconMaterial
                   name="chat"
                   style={{fontSize: 50, color: '#000'}}

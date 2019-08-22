@@ -14,7 +14,7 @@ class ListChat extends Component {
     return (
       <React.Fragment>
         <View style={styles.navbar}>
-          <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('PersonChat')}>
             <IconMaterial name="arrow-back" style={styles.iconnavbar} />
           </TouchableOpacity>
           <Text style={styles.textnavbar}>Belijjhe Chat</Text>

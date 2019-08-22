@@ -104,6 +104,7 @@ getCurrentPosition() {
               'https://res.cloudinary.com/downloadaplikasi27/image/upload/v1566350468/zx6qbhblaellq1ezvpwc.jpg',
             latitude: this.state.latitude,
             longitude: this.state.longitude,
+            uid: response.user.uid
           });
           this.props.navigation.navigate('Login');
         })

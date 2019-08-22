@@ -32,7 +32,7 @@ class App extends Component {
       <Fragment>
         <StatusBar barStyle="#075e54" />
         <SafeAreaView>
-        {this.state.view}
+        <RootNavigator />
         </SafeAreaView>
       </Fragment>
     );
