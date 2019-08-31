@@ -100,7 +100,7 @@ export default class Register extends Component {
             <TextInput
               style={style.textInput}
               placeholder="Password"
-              textContentType= "password"
+              secureTextEntry={true}
               onChangeText={password => this.setState({password: password})}
             />
 

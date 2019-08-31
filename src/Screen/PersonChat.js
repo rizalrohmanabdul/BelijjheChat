@@ -121,7 +121,8 @@ export default class PersonChat extends Component {
                         {item.message}
                       </Text>
                       <Text style={items.date}>
-                        {moment(item.time).format('h:mm')}
+                        {/* {moment(item.time).format('h:mm')} */}
+                        {item.time}
                       </Text>
                     </View>
                   </View>

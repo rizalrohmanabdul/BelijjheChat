@@ -197,6 +197,7 @@ class Dashboard extends Component {
                     source={{uri: item.img}}
                     style={{width: 40, height: 40, borderRadius: 100 / 2}}
                   />
+                  <View style={{width: 10, height: 10, borderRadius: 100 / 2, backgroundColor:item.status == 'online'? '#25d366' : 'red', position: 'absolute'}}/>
                 </Marker>
               );
             })}

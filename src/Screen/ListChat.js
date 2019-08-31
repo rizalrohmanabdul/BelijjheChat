@@ -8,13 +8,60 @@ import {
   FlatList,
   TouchableOpacity,
   Image,
+  AsyncStorage,
 } from 'react-native';
+import {Database, Auth} from '../../src/Public/Config/configDB';
 class ListChat extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      chat: [],
+      users: [],
+      data: [],
+      uid: null,
+    };
+  }
+
+  componentDidMount = async () => {
+    const uid = await AsyncStorage.getItem('userid');
+    this.setState({uid});
+    Database.ref('messages/' + this.state.uid).on('child_added', data => {
+      let list = data.val();
+      list.id = data.key;
+      this.state.chat.push({
+        id: list.id,
+      });
+      this.setState({chat: this.state.chat});
+    });
+
+    Database.ref('user/').once('value', result => {
+      let data = result.val();
+      if (data !== null) {
+        let users = Object.values(data);
+        this.setState({
+          users,
+          isLoading: false,
+        });
+      }
+    });
+  };
+  _keyExtractor = (item, index) => item.uid+'';
   render() {
+     const users = this.state.users;
+        const chat = this.state.chat
+        const datas = []
+        chat.forEach((value, pass) => {
+            datas[pass] = users.find((item) => 
+            item.uid === value.id)
+            
+        })
+    console.log('ini chat', datas)
+    console.log('ini usernya', this.state.users)
     return (
       <React.Fragment>
         <View style={styles.navbar}>
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('PersonChat')}>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate('PersonChat')}>
             <IconMaterial name="arrow-back" style={styles.iconnavbar} />
           </TouchableOpacity>
           <Text style={styles.textnavbar}>Belijjhe Chat</Text>
@@ -23,11 +70,13 @@ class ListChat extends Component {
           </TouchableOpacity>
         </View>
         <View>
-        <FlatList
-            data={[{key: 'a'}, {key: 'b'}]}
+          <FlatList
+            keyExtractor={this._keyExtractor}
+            data={[datas]}
             renderItem={({item}) => {
               return (
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('PersonChat')}>
+                <TouchableOpacity
+                  onPress={() => this.props.navigation.navigate('PersonChat')}>
                   <View
                     style={{
                       flexDirection: 'row',
@@ -41,8 +90,18 @@ class ListChat extends Component {
                       />
                     </View>
                     <View style={{marginLeft: 10, width: 270}}>
-                      <Text style={{color: 'black', fontSize:17, fontWeight: 'bold'}}>Tukang Sayur</Text>
-                      <Text style={{color: 'black'}}>Assalamulaiakum Hari ini Jualan Apa?</Text>
+                      <Text
+                        style={{
+                          color: 'black',
+                          fontSize: 17,
+                          fontWeight: 'bold',
+                        }}>
+                          
+                        coba
+                      </Text>
+                      <Text style={{color: 'black'}}>
+                        Assalamulaiakum Hari ini Jualan Apa?
+                      </Text>
                     </View>
                     <View
                       style={{borderBottomWidth: 3, borderColor: 'black'}}
@@ -54,7 +113,6 @@ class ListChat extends Component {
             style={styles.flatlist}
           />
         </View>
-         
       </React.Fragment>
     );
   }
