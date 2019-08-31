@@ -13,9 +13,6 @@
 - [Requirements](#requirements)
 - [Usage](#usage-for-development)
 - [Screenshots](#screenshots)
-- [Release APK](#release-apk)
-- [Related Project](#related-project-backend)
-- [Trello](#trello)
 - [Contributors](#contributors)
 
 ## Introduction
