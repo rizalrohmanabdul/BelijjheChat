@@ -12,7 +12,7 @@
     "firebase": "^6.4.0",
     "link": "^0.1.5",
     "lodash.isempty": "^4.4.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "react": "16.8.6",
     "react-native": "0.60.5",
     "react-native-flat-chat": "^0.1.1",
